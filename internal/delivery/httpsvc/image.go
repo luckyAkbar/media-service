@@ -11,6 +11,7 @@ func (s *Service) handleSave() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		fmt.Println(c.RealIP())
 		fmt.Println(c.Request().Header.Values("X-Real-IP"))
+		fmt.Println(c.Request().Header.Values("X-Forwarded-For"))
 		return c.JSON(http.StatusOK, "hello world")
 	}
 }

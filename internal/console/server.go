@@ -35,7 +35,7 @@ func startServer(cmd *cobra.Command, args []string) {
 	server.Use(middleware.CORS())
 	server.Use(middleware.Recover())
 
-	server.IPExtractor = echo.ExtractIPFromXFFHeader()
+	server.IPExtractor = echo.ExtractIPFromRealIPHeader()
 
 	group := server.Group("")
 

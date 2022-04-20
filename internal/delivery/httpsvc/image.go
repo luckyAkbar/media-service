@@ -12,6 +12,7 @@ func (s *Service) handleSave() echo.HandlerFunc {
 		file, err := c.FormFile("file")
 
 		if err != nil {
+			logrus.Error(err)
 			return ErrCustomMsgAndStatus(http.StatusBadRequest, err.Error())
 		}
 

@@ -20,6 +20,7 @@ func (s *Service) handleSave() echo.HandlerFunc {
 		res, err := imageHandler.HandleUpload(file)
 
 		if err != nil {
+			logrus.Error(err)
 			return err
 		}
 

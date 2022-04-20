@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"image-service/internal/config"
 	"image-service/internal/helper"
+	"image-service/internal/model"
 	"image-service/internal/repository"
 	"io"
 	"math/rand"
@@ -32,16 +33,16 @@ type imageKey struct {
 	DeleteKey string `json:"delete_key"`
 }
 
-func NewImageHandler(file *multipart.FileHeader) *ImageHandler {
+func NewImageHandler() *ImageHandler {
 	return &ImageHandler{
 		AllowedImageExt: config.AllowedImageExt(),
 		AllowedMimeType: config.AllowedMimeType(),
 		MaxSizeBytes:    config.MaxImageSizeBytes(),
-		File:            file,
 	}
 }
 
-func (i *ImageHandler) HandleUpload() (imageKey, error) {
+func (i *ImageHandler) HandleUpload(file *multipart.FileHeader) (imageKey, error) {
+	i.File = file
 	if err := i.filterMimeType(); err != nil {
 		logrus.Error(err)
 		return imageKey{}, err
@@ -60,20 +61,32 @@ func (i *ImageHandler) HandleUpload() (imageKey, error) {
 		return imageKey{}, err
 	}
 
-	imageRepo := repository.NewImageRepo(
+	imageRepo := repository.NewImageRepo()
+	err := imageRepo.Save(
 		i.ImageFullName,
 		i.Keys.ImageKey,
 		i.Keys.DeleteKey,
 		i.Keys.UpdateKey,
 		i.File.Size,
 	)
-
-	if err := imageRepo.Save(); err != nil {
+	if err != nil {
 		logrus.Error(err)
 		return imageKey{}, ErrServerFailedToSaveImage
 	}
 
 	return i.Keys, nil
+}
+
+func (i *ImageHandler) HandleGet(imageKey string) (model.Image, error) {
+	imageRepo := repository.NewImageRepo()
+	data, err := imageRepo.Find(imageKey)
+
+	if err != nil {
+		logrus.Error(err)
+		return data, err
+	}
+
+	return data, nil
 }
 
 func (i *ImageHandler) saveImage() error {

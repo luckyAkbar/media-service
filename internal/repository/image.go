@@ -1,0 +1,44 @@
+package repository
+
+import (
+	"image-service/internal/db"
+	"image-service/internal/model"
+
+	"gorm.io/gorm"
+)
+
+type ImageRepo struct {
+	db        *gorm.DB
+	Name      string
+	ImageKey  string
+	DeleteKey string
+	UpdateKey string
+	Size      int64
+}
+
+func NewImageRepo(name, imageKey, deleteKey, updateKey string, size int64) *ImageRepo {
+	return &ImageRepo{
+		db:        db.DB,
+		Name:      name,
+		ImageKey:  imageKey,
+		DeleteKey: deleteKey,
+		UpdateKey: updateKey,
+		Size:      size,
+	}
+}
+
+func (r *ImageRepo) Save() error {
+	image := &model.Image{
+		Name:           r.Name,
+		ImageKey:       r.ImageKey,
+		DeleteKey:      r.DeleteKey,
+		UpdateKey:      r.UpdateKey,
+		ImageSizeBytes: r.Size,
+	}
+
+	if err := r.db.Save(image).Error; err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -4,6 +4,7 @@ import (
 	"image-service/internal/db"
 	"image-service/internal/model"
 
+	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
 
@@ -16,24 +17,19 @@ type ImageRepo struct {
 	Size      int64
 }
 
-func NewImageRepo(name, imageKey, deleteKey, updateKey string, size int64) *ImageRepo {
+func NewImageRepo() *ImageRepo {
 	return &ImageRepo{
-		db:        db.DB,
-		Name:      name,
-		ImageKey:  imageKey,
-		DeleteKey: deleteKey,
-		UpdateKey: updateKey,
-		Size:      size,
+		db: db.DB,
 	}
 }
 
-func (r *ImageRepo) Save() error {
+func (r *ImageRepo) Save(name, imageKey, deleteKey, updateKey string, size int64) error {
 	image := &model.Image{
-		Name:           r.Name,
-		ImageKey:       r.ImageKey,
-		DeleteKey:      r.DeleteKey,
-		UpdateKey:      r.UpdateKey,
-		ImageSizeBytes: r.Size,
+		Name:           name,
+		ImageKey:       imageKey,
+		DeleteKey:      deleteKey,
+		UpdateKey:      updateKey,
+		ImageSizeBytes: size,
 	}
 
 	if err := r.db.Save(image).Error; err != nil {

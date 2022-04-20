@@ -76,6 +76,18 @@ func (i *ImageHandler) HandleUpload() (imageKey, error) {
 	return i.Keys, nil
 }
 
+func (i *ImageHandler) HandleGet(imageKey string) (model.Image, error) {
+	imageRepo := repository.NewImageRepo()
+	data, err := imageRepo.Find(imageKey)
+
+	if err != nil {
+		logrus.Error(err)
+		return data, err
+	}
+
+	return data, nil
+}
+
 func (i *ImageHandler) saveImage() error {
 	src, err := i.File.Open()
 	if err != nil {

@@ -1,10 +1,13 @@
 package httpsvc
 
 import (
+	"fmt"
+	"image-service/internal/config"
 	"image-service/internal/usecase"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/sirupsen/logrus"
 )
 
 func (s *Service) handleSave() echo.HandlerFunc {
@@ -25,5 +28,20 @@ func (s *Service) handleSave() echo.HandlerFunc {
 		}
 
 		return c.JSON(http.StatusOK, res)
+	}
+}
+
+func (s *Service) handleGet() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		imageKey := c.Param("imageKey")
+
+		imageHandler := usecase.NewImageHandler()
+		data, err := imageHandler.HandleGet(imageKey)
+		if err != nil {
+			logrus.Error(err)
+			return ErrImageNotFound
+		}
+
+		return c.File(fmt.Sprintf("%s%s", config.ImageStoragePath(), data.Name))
 	}
 }

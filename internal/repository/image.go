@@ -42,3 +42,14 @@ func (r *ImageRepo) Save() error {
 
 	return nil
 }
+
+func (r *ImageRepo) Find(imageKey string) (model.Image, error) {
+	image := model.Image{}
+	err := r.db.Model(&image).Where("image_key = ?", imageKey).First(&image).Error
+	if err != nil {
+		logrus.Error(err)
+		return image, err
+	}
+
+	return image, nil
+}

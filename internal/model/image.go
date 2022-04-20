@@ -13,5 +13,5 @@ type Image struct {
 	Name              string
 	UploaderIP        string
 	UploaderUserAgent string
-	ImageSizeKB       int64
+	ImageSizeBytes    int64
 }

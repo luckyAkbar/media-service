@@ -1,3 +1,5 @@
 .env
 *.log
 docker-compose.yml
+tmp/
+image_storage

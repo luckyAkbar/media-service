@@ -1,6 +1,14 @@
 package httpsvc
 
-import "github.com/labstack/echo/v4"
+import (
+	"net/http"
+
+	"github.com/labstack/echo/v4"
+)
+
+var (
+	ErrImageNotFound = echo.NewHTTPError(http.StatusNotFound, "image not found")
+)
 
 func ErrCustomMsgAndStatus(status int, msg string) *echo.HTTPError {
 	return echo.NewHTTPError(status, msg)

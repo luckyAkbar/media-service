@@ -16,8 +16,8 @@ func (s *Service) handleSave() echo.HandlerFunc {
 			return ErrCustomMsgAndStatus(http.StatusBadRequest, err.Error())
 		}
 
-		imageHandler := usecase.NewImageHandler(file)
-		res, err := imageHandler.HandleUpload()
+		imageHandler := usecase.NewImageHandler()
+		res, err := imageHandler.HandleUpload(file)
 
 		if err != nil {
 			return err

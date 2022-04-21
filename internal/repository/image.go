@@ -49,3 +49,12 @@ func (r *ImageRepo) Find(imageKey string) (model.Image, error) {
 
 	return image, nil
 }
+
+func (r *ImageRepo) Update(imageData model.Image) error {
+	if err := r.db.Save(imageData).Error; err != nil {
+		logrus.Error(err)
+		return err
+	}
+
+	return nil
+}

@@ -18,4 +18,5 @@ func (s *Service) initRoutes() {
 	s.group.GET("/:imageKey", s.handleGet())
 	s.group.POST("/", s.handleSave())
 	s.group.PATCH("/", s.handleUpdate())
+	s.group.DELETE("/", s.handleDelete())
 }

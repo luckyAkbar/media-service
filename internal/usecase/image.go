@@ -128,6 +128,27 @@ func (i *ImageHandler) HandleUpdate(file *multipart.FileHeader, key, updateKey s
 	}, nil
 }
 
+func (i *ImageHandler) HandleDelete(imageKey, deleteKey string) error {
+	imageRepo := repository.NewImageRepo()
+	imageData, err := imageRepo.Find(imageKey)
+	if err != nil {
+		logrus.Error(err)
+		return ErrFileNotFound
+	}
+
+	if imageData.DeleteKey != deleteKey {
+		logrus.Error(ErrDeleteKeyMismatch)
+		return ErrDeleteKeyMismatch
+	}
+
+	if err := imageRepo.Delete(imageData); err != nil {
+		logrus.Error(err)
+		return ErrServerFailedToDelete
+	}
+
+	return nil
+}
+
 func (i *ImageHandler) applyCommonFileFilter() error {
 	if err := i.filterMimeType(); err != nil {
 		logrus.Error(err)

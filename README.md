@@ -48,7 +48,7 @@ Untuk melakukan hal ini, anda bisa melakukan request seperti berikut:<br>
 - Respon Server Body: *delete_key, update_key, image_key*
 
 Catatan: <br>
-*image_key* dari gambar lama anda tidak akan berubah ketika ingin mengakses gambar baru anda. Namun *delete_key* dan *update_key* akan berubah
+*image_key* dan *delete_key* dari gambar lama anda tidak akan berubah ketika ingin mengakses gambar baru anda. Namun *update_key* akan berubah
 
 
 ## 4. Menghapus gambar

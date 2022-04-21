@@ -70,3 +70,31 @@ func (s *Service) handleUpdate() echo.HandlerFunc {
 		return c.JSON(http.StatusOK, keys)
 	}
 }
+
+func (s *Service) handleDelete() echo.HandlerFunc {
+	type request struct {
+		ImageKey  string `json:"image_key"`
+		DeleteKey string `json:"delete_key"`
+	}
+
+	return func(c echo.Context) error {
+		req := request{}
+		if err := c.Bind(&req); err != nil {
+			logrus.Error(err)
+			return ErrInvalidPayload
+		}
+
+		if req.ImageKey == "" || req.DeleteKey == "" {
+			logrus.Error(ErrInvalidPayload)
+			return ErrInvalidPayload
+		}
+
+		imageHandler := usecase.NewImageHandler()
+		if err := imageHandler.HandleDelete(req.ImageKey, req.DeleteKey); err != nil {
+			logrus.Error(err)
+			return err
+		}
+
+		return c.NoContent(http.StatusOK)
+	}
+}

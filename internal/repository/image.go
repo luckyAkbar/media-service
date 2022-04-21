@@ -58,3 +58,11 @@ func (r *ImageRepo) Update(imageData model.Image) error {
 
 	return nil
 }
+
+func (r *ImageRepo) Delete(imageData model.Image) error {
+	if err := r.db.Delete(&imageData).Error; err != nil {
+		return err
+	}
+
+	return nil
+}

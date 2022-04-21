@@ -55,12 +55,12 @@ Catatan: <br>
 Layanan ini bisa anda gunakan ketika anda ingin menghapus gambar yang telah anda upload. <br>
 Caranya adalah dengan melakukan request seperti berikut: <br>
 
-- **DELETE image.service.luckyakbar.tech/*image_key***
+- **DELETE image.service.luckyakbar.tech/**
 - Payload: <br>
   - Content-Type: *application/json*
-  - Body: *delete_key*
+  - Body: *image_key*, *delete_key*
 - Response Server Type: *application/json*
-- Response Server Body: *image_key*
+- Response Server Body: *none*
 
 Catatan: <br>
 Ketika anda menghapus gambar yang telah anda simpan, maka anda tidak akan bisa mengembalikannya lagi.

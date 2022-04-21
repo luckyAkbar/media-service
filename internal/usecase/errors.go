@@ -10,6 +10,8 @@ import (
 var (
 	ErrServerFailedToSaveImage = echo.NewHTTPError(http.StatusInternalServerError, "server failed to save the uploaded image")
 	ErrMimeTypeNotFound        = echo.NewHTTPError(http.StatusBadRequest, "Mimetype is not found")
+	ErrFileNotFound            = echo.NewHTTPError(http.StatusNotFound, "image not found")
+	ErrUpdateKeyMismatch       = echo.NewHTTPError(http.StatusForbidden, "update key mismatch")
 )
 
 func ErrMimeTypeForbidden(mimetype string) *echo.HTTPError {

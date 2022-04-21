@@ -7,7 +7,8 @@ import (
 )
 
 var (
-	ErrImageNotFound = echo.NewHTTPError(http.StatusNotFound, "image not found")
+	ErrImageNotFound  = echo.NewHTTPError(http.StatusNotFound, "image not found")
+	ErrInvalidPayload = echo.NewHTTPError(http.StatusBadRequest, "invalid payload")
 )
 
 func ErrCustomMsgAndStatus(status int, msg string) *echo.HTTPError {

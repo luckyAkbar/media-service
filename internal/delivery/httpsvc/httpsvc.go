@@ -17,4 +17,5 @@ func RouteService(group *echo.Group) {
 func (s *Service) initRoutes() {
 	s.group.GET("/:imageKey", s.handleGet())
 	s.group.POST("/", s.handleSave())
+	s.group.PATCH("/", s.handleUpdate())
 }

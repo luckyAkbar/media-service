@@ -89,6 +89,59 @@ func (i *ImageHandler) HandleGet(imageKey string) (model.Image, error) {
 	return data, nil
 }
 
+func (i *ImageHandler) HandleUpdate(file *multipart.FileHeader, key, updateKey string) (imageKey, error) {
+	i.File = file
+
+	if err := i.applyCommonFileFilter(); err != nil {
+		return imageKey{}, err
+	}
+
+	imageRepo := repository.NewImageRepo()
+	imageData, err := imageRepo.Find(key)
+	if err != nil {
+		return imageKey{}, ErrFileNotFound
+	}
+
+	if updateKey != imageData.UpdateKey {
+		logrus.Error(ErrUpdateKeyMismatch)
+		return imageKey{}, ErrUpdateKeyMismatch
+	}
+
+	i.ImageFullName = i.generateImageName()
+	imageData.Name = i.ImageFullName
+	imageData.UpdateKey = i.generateNewUpdateKey()
+
+	if err := i.saveImage(); err != nil {
+		logrus.Error(err)
+		return imageKey{}, ErrServerFailedToSaveImage
+	}
+
+	if err := imageRepo.Update(imageData); err != nil {
+		logrus.Error(err)
+		return imageKey{}, ErrServerFailedToSaveImage
+	}
+
+	return imageKey{
+		ImageKey:  imageData.ImageKey,
+		UpdateKey: imageData.UpdateKey,
+		DeleteKey: imageData.DeleteKey,
+	}, nil
+}
+
+func (i *ImageHandler) applyCommonFileFilter() error {
+	if err := i.filterMimeType(); err != nil {
+		logrus.Error(err)
+		return err
+	}
+
+	if err := i.filterSize(); err != nil {
+		logrus.Error(err)
+		return err
+	}
+
+	return nil
+}
+
 func (i *ImageHandler) saveImage() error {
 	src, err := i.File.Open()
 	if err != nil {
@@ -162,4 +215,11 @@ func (i *ImageHandler) generateKeys() imageKey {
 		UpdateKey: helper.GenerateRandString(config.UPDATE_KEY_LENGTH, int64UpdateKeySeeder),
 		DeleteKey: helper.GenerateRandString(config.DELETE_KEY_LENGTH, int64DeleteKeySeeder.Int64()),
 	}
+}
+
+func (i *ImageHandler) generateNewUpdateKey() string {
+	now := time.Now().Unix()
+	int64UpdateKeySeeder := rand.Int63n(now)
+
+	return helper.GenerateRandString(config.UPDATE_KEY_LENGTH, int64UpdateKeySeeder)
 }

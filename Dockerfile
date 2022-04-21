@@ -4,7 +4,7 @@ WORKDIR /app
 
 RUN mkdir src
 RUN mkdir bin
-RUN mkdir -p /var/local/image_service_server/image_storage
+RUN mkdir image_storage
 
 COPY go.mod .
 COPY go.sum .

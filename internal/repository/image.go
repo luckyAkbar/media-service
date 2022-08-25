@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"image-service/internal/db"
-	"image-service/internal/model"
+	"media-service/internal/db"
+	"media-service/internal/model"
 
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"

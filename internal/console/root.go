@@ -1,7 +1,7 @@
 package console
 
 import (
-	"image-service/internal/config"
+	"media-service/internal/config"
 	"os"
 
 	runtime "github.com/banzaicloud/logrus-runtime-formatter"
@@ -10,7 +10,7 @@ import (
 )
 
 var RootCMD = &cobra.Command{
-	Use: "image-service",
+	Use: "media-service",
 }
 
 func Execute() {

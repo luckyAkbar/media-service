@@ -1,8 +1,8 @@
 package helper
 
 import (
-	"image-service/internal/config"
 	"math/rand"
+	"media-service/internal/config"
 	"strings"
 )
 

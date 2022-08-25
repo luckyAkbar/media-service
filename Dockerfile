@@ -5,6 +5,7 @@ WORKDIR /app
 RUN mkdir src
 RUN mkdir bin
 RUN mkdir image_storage
+RUN mkdir video_storage
 
 COPY go.mod .
 COPY go.sum .

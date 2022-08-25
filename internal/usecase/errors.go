@@ -1,25 +1,26 @@
 package usecase
 
 import (
+	"errors"
 	"fmt"
-	"net/http"
-
-	"github.com/labstack/echo/v4"
 )
 
 var (
-	ErrServerFailedToSaveImage = echo.NewHTTPError(http.StatusInternalServerError, "server failed to save the uploaded image")
-	ErrMimeTypeNotFound        = echo.NewHTTPError(http.StatusBadRequest, "Mimetype is not found")
-	ErrFileNotFound            = echo.NewHTTPError(http.StatusNotFound, "image not found")
-	ErrUpdateKeyMismatch       = echo.NewHTTPError(http.StatusForbidden, "update key mismatch")
-	ErrDeleteKeyMismatch       = echo.NewHTTPError(http.StatusForbidden, "delete key mismatch")
-	ErrServerFailedToDelete    = echo.NewHTTPError(http.StatusInternalServerError, "server failed to delete that image")
+	ErrServerFailedToSaveImage = errors.New("server failed to save the uploaded image")
+	ErrMimeTypeNotFound        = errors.New("mimetype is not found")
+	ErrMimeTypeIsForbidden     = errors.New("mimetype is forbidden")
+	ErrFileNotFound            = errors.New("image not found")
+	ErrFileSizeToLarge         = errors.New("file too large")
+	ErrUpdateKeyMismatch       = errors.New("update key mismatch")
+	ErrDeleteKeyMismatch       = errors.New("delete key mismatch")
+	ErrServerFailedToDelete    = errors.New("server failed to delete that image")
+	ErrInternal                = errors.New("internal error")
 )
 
-func ErrMimeTypeForbidden(mimetype string) *echo.HTTPError {
-	return echo.NewHTTPError(http.StatusForbidden, fmt.Sprintf("mimetype: %s is forbidden", mimetype))
+func ErrMimeTypeForbidden(mimetype string) error {
+	return fmt.Errorf("mimetype: %s is forbidden", mimetype)
 }
 
-func ErrFileToLarge(actual, max int64) *echo.HTTPError {
-	return echo.NewHTTPError(http.StatusForbidden, fmt.Sprintf("Image too large with size: %d, max only: %d", actual, max))
+func ErrFileToLarge(actual, max int64) error {
+	return fmt.Errorf("file too large with size: %d, max only: %d", actual, max)
 }

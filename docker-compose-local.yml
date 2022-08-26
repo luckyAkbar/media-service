@@ -10,5 +10,5 @@ services:
     volumes:
       - "./.env:/app/.env"
       - "${IMAGE_STORAGE_PATH}:/app/image_storage"
-      - "${VIDEO_STORAGE_PATH}:/app/image_storage"
+      - "${VIDEO_STORAGE_PATH}:/app/video_storage"
       

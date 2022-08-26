@@ -9,6 +9,6 @@ services:
       - "${SERVER_PORT}:${SERVER_PORT}"
     volumes:
       - "./.env:/app/.env"
-      - "${IMAGE_STORAGE_PATH}/app/image_storage"
-      - "${VIDEO_STORAGE_PATH}/app/image_storage"
+      - "${IMAGE_STORAGE_PATH}:/app/image_storage"
+      - "${VIDEO_STORAGE_PATH}:/app/image_storage"
       

@@ -3,8 +3,6 @@ version: '3'
 services:
   image_service_server:
     build: .
-    depends_on:
-      - image_service_psql
     extra_hosts:
       - "host.docker.internal:host-gateway"
     ports:

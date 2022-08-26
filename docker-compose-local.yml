@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  image_service_server:
+  media_service_server:
     build: .
     extra_hosts:
       - "host.docker.internal:host-gateway"

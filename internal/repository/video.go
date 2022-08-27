@@ -32,3 +32,22 @@ func (r *videoRepository) Store(ctx context.Context, v *model.Video) error {
 
 	return nil
 }
+
+func (r *videoRepository) GetByID(ctx context.Context, id int64) (*model.Video, error) {
+	logger := logrus.WithFields(logrus.Fields{
+		"ctx": utils.DumpIncomingContext(ctx),
+		"id":  id,
+	})
+
+	video := &model.Video{}
+	err := r.db.WithContext(ctx).Model(&model.Video{}).Where("id=?", id).Take(video).Error
+	switch err {
+	default:
+		logger.Error(err)
+		return nil, err
+	case gorm.ErrRecordNotFound:
+		return nil, ErrNotFound
+	case nil:
+		return video, nil
+	}
+}

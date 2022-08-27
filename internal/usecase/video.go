@@ -7,6 +7,7 @@ import (
 	"media-service/internal/config"
 	"media-service/internal/helper"
 	"media-service/internal/model"
+	"media-service/internal/repository"
 	"mime/multipart"
 	"os"
 	"path"
@@ -65,6 +66,7 @@ func (u *videoUsecase) Upload(ctx context.Context, file *multipart.FileHeader, t
 		Filename:  fmt.Sprintf("%s.%s", helper.GenerateRandString(config.VideoNameLength(), time.Now().Unix()), ext),
 		Extention: ext,
 		SizeBytes: file.Size,
+		MimeType:  mimetype,
 
 		// TODO check video length
 		LengthSeconds: 0,
@@ -83,6 +85,24 @@ func (u *videoUsecase) Upload(ctx context.Context, file *multipart.FileHeader, t
 	}
 
 	return video, nil
+}
+
+func (u *videoUsecase) Download(ctx context.Context, id int64) (*model.Video, error) {
+	logger := logrus.WithFields(logrus.Fields{
+		"ctx": utils.DumpIncomingContext(ctx),
+		"id":  id,
+	})
+
+	video, err := u.videoRepo.GetByID(ctx, id)
+	switch err {
+	default:
+		logger.Error(err)
+		return nil, ErrInternal
+	case repository.ErrNotFound:
+		return nil, ErrNotFound
+	case nil:
+		return video, err
+	}
 }
 
 func (u *videoUsecase) filterVideoMimeType(file *multipart.FileHeader) (string, error) {

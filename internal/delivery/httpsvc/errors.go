@@ -14,6 +14,7 @@ var (
 	ErrMimeTypeNotFound    = echo.NewHTTPError(http.StatusBadRequest, "mime type not found")
 	ErrMimeTypeIsForbidden = echo.NewHTTPError(http.StatusForbidden, "mime type forbidden")
 	ErrFileTooLarge        = echo.NewHTTPError(http.StatusBadRequest, "file too large")
+	ErrNotFound            = echo.NewHTTPError(http.StatusNotFound, "not found")
 )
 
 func ErrCustomMsgAndStatus(status int, msg string) *echo.HTTPError {

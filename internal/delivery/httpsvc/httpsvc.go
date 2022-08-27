@@ -32,4 +32,5 @@ func (s *Service) initRoutes() {
 
 func (s *Service) initVideoServiceRoutes() {
 	s.group.POST("/video/", s.handleUploadVideo())
+	s.group.GET("/video/:id/", s.handleDownloadVideo())
 }

@@ -3,3 +3,4 @@
 docker-compose.yml
 tmp/
 image_storage
+video_storage

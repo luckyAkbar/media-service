@@ -2,8 +2,8 @@ package httpsvc
 
 import (
 	"fmt"
-	"image-service/internal/config"
-	"image-service/internal/usecase"
+	"media-service/internal/config"
+	"media-service/internal/usecase"
 	"net/http"
 
 	"github.com/labstack/echo/v4"

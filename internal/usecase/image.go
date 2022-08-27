@@ -3,12 +3,12 @@ package usecase
 import (
 	cryptoRand "crypto/rand"
 	"fmt"
-	"image-service/internal/config"
-	"image-service/internal/helper"
-	"image-service/internal/model"
-	"image-service/internal/repository"
 	"io"
 	"math/rand"
+	"media-service/internal/config"
+	"media-service/internal/helper"
+	"media-service/internal/model"
+	"media-service/internal/repository"
 	"mime"
 	"mime/multipart"
 	"os"
@@ -36,7 +36,7 @@ type imageKey struct {
 func NewImageHandler() *ImageHandler {
 	return &ImageHandler{
 		AllowedImageExt: config.AllowedImageExt(),
-		AllowedMimeType: config.AllowedMimeType(),
+		AllowedMimeType: config.AllowedImageMimeType(),
 		MaxSizeBytes:    config.MaxImageSizeBytes(),
 	}
 }

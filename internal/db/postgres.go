@@ -1,7 +1,7 @@
 package db
 
 import (
-	"image-service/internal/config"
+	"media-service/internal/config"
 
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"

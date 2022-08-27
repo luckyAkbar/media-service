@@ -1,6 +1,6 @@
 package main
 
-import "image-service/internal/console"
+import "media-service/internal/console"
 
 func main() {
 	console.Execute()

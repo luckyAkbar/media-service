@@ -1,24 +1,14 @@
 version: '3'
 
 services:
-  image_service_server:
+  media_service_server:
     build: .
-    depends_on:
-      - image_service_psql
     extra_hosts:
       - "host.docker.internal:host-gateway"
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     volumes:
       - "./.env:/app/.env"
-      - "${IMAGE_STORAGE_PATH}/app/image_storage"
-  image_service_psql:
-    image: postgres:14-alpine
-    volumes:
-      - "/var/lib/postgresql/image_service_psql_data:/var/lib/postgresql/data"
-    ports:
-      - "${PGPORT}:5432"
-    environment:
-      - POSTGRES_USER=${PGUSER}
-      - POSTGRES_PASSWORD=${PGPASSWORD}
-      - POSTGRES_DB=${PGDATABASE}
+      - "${IMAGE_STORAGE_PATH}:/app/image_storage"
+      - "${VIDEO_STORAGE_PATH}:/app/video_storage"
+      

@@ -15,6 +15,7 @@ var (
 	ErrDeleteKeyMismatch       = errors.New("delete key mismatch")
 	ErrServerFailedToDelete    = errors.New("server failed to delete that image")
 	ErrInternal                = errors.New("internal error")
+	ErrNotFound                = errors.New("not found")
 )
 
 func ErrMimeTypeForbidden(mimetype string) error {
